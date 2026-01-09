@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>编辑行程</h2>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, msg in messages %}
+      <p class="{{ category }}">{{ msg }}</p>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<form method="POST">
+    <label>标题：<input type="text" name="title" value="{{ itinerary.title }}" required></label><br><br>
+    <label>目的地：<input type="text" name="destination" value="{{ itinerary.destination }}" required></label><br><br>
+    <label>开始日期：<input type="date" name="start_date" value="{{ itinerary.start_date.strftime('%Y-%m-%d') }}" required></label><br><br>
+    <label>结束日期：<input type="date" name="end_date" value="{{ itinerary.end_date.strftime('%Y-%m-%d') }}" required></label><br><br>
+    <label>笔记：<textarea name="notes">{{ itinerary.notes or '' }}</textarea></label><br><br>
+    <button type="submit">保存修改</button>
+    <a href="{{ url_for('index') }}">取消</a>
+</form>
+{% endblock %}

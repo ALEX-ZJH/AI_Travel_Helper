@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>货币转换器</h2>
+
+<form method="POST">
+    <label>从：
+        <select name="from_currency" required>
+            {% for code, name in currencies %}
+            <option value="{{ code }}" {% if code == 'USD' %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+        </select>
+    </label><br><br>
+
+    <label>到：
+        <select name="to_currency" required>
+            {% for code, name in currencies %}
+            <option value="{{ code }}" {% if code == 'EUR' %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+        </select>
+    </label><br><br>
+
+    <label>金额：
+        <input type="number" name="amount" step="0.01" min="0.01" value="1" required>
+    </label><br><br>
+
+    <button type="submit">转换</button>
+</form>
+
+{% if result is not none %}
+    <h3>转换结果：</h3>
+    <p><strong>{{ result }}</strong></p>
+{% endif %}
+
+{% if chart_data %}
+    <h3>过去30天汇率趋势</h3>
+    <canvas id="rateChart" height="120"></canvas>
+    <script>
+        const ctx = document.getElementById('rateChart');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ chart_data.dates | tojson }},
+                datasets: [{
+                    label: '汇率',
+                    data: {{ chart_data.rates | tojson }},
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0,123,255,0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'top' } }
+            }
+        });
+    </script>
+{% else %}
+    <p style="color: gray;">转换后显示趋势图</p>
+{% endif %}
+
+{% endblock %}

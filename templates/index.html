@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>您的旅程</h2>
+
+{% if itineraries %}
+<div class="itinerary-list">
+    {% for itinerary in itineraries %}
+    <div class="itinerary-card">
+        {% if itinerary.cover_image %}
+        <img src="{{ itinerary.cover_image }}" alt="{{ itinerary.destination }}" class="cover-image">
+        {% else %}
+        <div class="cover-placeholder">无图片</div>
+        {% endif %}
+
+        <div class="card-content">
+            <h3>{{ itinerary.title }}</h3>
+            <p><strong>目的地：</strong>{{ itinerary.destination }}</p>
+            <p><strong>日期：</strong>{{ itinerary.start_date }} 至 {{ itinerary.end_date }}</p>
+            {% if itinerary.notes %}
+            <p><strong>笔记：</strong>{{ itinerary.notes }}</p>
+            {% endif %}
+
+            <div class="actions">
+                <a href="{{ url_for('detail', id=itinerary.id) }}">详情（AI指南）</a>
+                <a href="{{ url_for('edit', id=itinerary.id) }}">编辑</a>
+                <a href="{{ url_for('delete', id=itinerary.id) }}" 
+                   onclick="return confirm('确定要删除吗？')">删除</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>还没有行程，<a href="{{ url_for('create') }}">点击这里创建第一个行程</a>吧！</p>
+{% endif %}
+
+{% endblock %}

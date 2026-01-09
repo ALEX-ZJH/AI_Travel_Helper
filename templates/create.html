@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>创建行程</h2>
+<form method="POST">
+    <label>标题: <input type="text" name="title" required></label><br>
+    <label>目的地: <input type="text" name="destination" required></label><br>
+    <label>开始日期: <input type="date" name="start_date" required></label><br>
+    <label>结束日期: <input type="date" name="end_date" required></label><br>
+    <label>笔记: <textarea name="notes"></textarea></label><br>
+    <button type="submit">保存</button>
+</form>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ itinerary.title }} - 行程详情</h2>
+<p><strong>目的地：</strong>{{ itinerary.destination }}</p>
+<p><strong>日期：</strong>{{ itinerary.start_date }} 至 {{ itinerary.end_date }}</p>
+<p><strong>个人笔记：</strong>{{ itinerary.notes or '无' }}</p>
+
+<h3>🤖 AI 智能旅行指南</h3>
+<div class="ai-guide">
+    {{ guide | safe }}  <!-- 支持 Markdown 渲染（标题、列表、表情） -->
+</div>
+
+<a href="{{ url_for('index') }}">← 返回首页</a>
+<a href="{{ url_for('edit', id=itinerary.id) }}">编辑行程</a>
+<a href="{{ url_for('delete', id=itinerary.id) }}" onclick="return confirm('确定删除吗？')">删除行程</a>
+{% endblock %}
