@@ -13,5 +13,7 @@
 
 ##Run
 pip install flask flask-sqlalchemy flask-login werkzeug requests openai
+
 python app.py
+
 Open http://127.0.0.1:5000
